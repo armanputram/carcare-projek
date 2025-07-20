@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('car_stores', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('thumbnail');
+            $table->string('phone_number');
+            $table->string('cs_name');
+            $table->text('address');
+            $table->boolean('is_open');
+            $table->foreignId('city_id')->constrained()->cascadeOnDelete();
+            $table->boolean('is_full');
+            $table->string('slug')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('car_stores');
