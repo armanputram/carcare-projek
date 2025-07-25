@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('store_photos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('car_store_id')->constrained('car_stores')->cascadeOnDelete();
+            $table->string('photo'); // <--- tambahkan baris ini
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CarStoreResource\Pages;
 use App\Filament\Resources\CarStoreResource\RelationManagers;
+use App\Filament\Resources\CarStoreResource\RelationManagers\PhotosRelationManager;
+use App\Models\CarService;
 use App\Models\CarStore;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class CarStoreResource extends Resource
 {
@@ -97,6 +100,21 @@ class CarStoreResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make('city_id')
+                    ->label('City')
+                    ->relationship('city', 'name'),
+
+                SelectFilter::make('car_service_id')
+                    ->label('Service')
+                    ->options(CarService::pluck('name','id'))
+                    ->query(function (Builder $query, array $data) {
+                     
+                        if ($data['value']) {
+                            $query->whereHas('storeServices', function ($query) use ($data) {
+                                $query->where('car_service_id', $data['value']);
+                            });
+                        }
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -112,6 +130,7 @@ class CarStoreResource extends Resource
     {
         return [
             //
+            PhotosRelationManager::class,
         ];
     }
 
