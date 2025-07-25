@@ -10,12 +10,15 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('store_services', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('store_services', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('car_store_id')->constrained('car_stores')->cascadeOnDelete();
+        $table->foreignId('car_service_id')->constrained('car_services')->cascadeOnDelete();
+        $table->softDeletes(); 
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

@@ -26,29 +26,49 @@ class CarStoreResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('thumbnail')
-                    ->required()
-                    ->maxLength(255),
+
                 Forms\Components\TextInput::make('phone_number')
-                    ->tel()
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('cs_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('address')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Toggle::make('is_open')
+
+                Forms\Components\Select::make('is_open')
+                    ->options([
+                        true=> 'open',
+                        false=> 'Not Open',
+                    ])
                     ->required(),
-                Forms\Components\TextInput::make('city_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Toggle::make('is_full')
+
+                      Forms\Components\Select::make('is_full')
+                    ->options([
+                        true=> 'Full Booked',
+                        false=> 'Available',
+                    ])
                     ->required(),
-                Forms\Components\TextInput::make('slug')
+
+                Forms\Components\Select::make('city_id')
+                    ->relationship('city', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
+                Forms\Components\Repeater::make('storeServices')
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\Select::make('car_service_id')
+                        ->relationship('service', 'name')
+                        ->required()
+                    ]),
+
+                    Forms\Components\FileUpload::make('thumbnail'),
+
+                    Forms\Components\Textarea::make('address')
                     ->required()
-                    ->maxLength(255),
+                    ->rows(18)
+                    ->cols(20),
             ]);
     }
 
@@ -58,33 +78,22 @@ class CarStoreResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('thumbnail')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('phone_number')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('cs_name')
-                    ->searchable(),
                 Tables\Columns\IconColumn::make('is_open')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('city_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->label('buka?'),
                 Tables\Columns\IconColumn::make('is_full')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('slug')
+                    ->boolean()
+                    ->trueColor('danger')
+                    ->falseColor('success')
+                    ->trueIcon('heroicon-o-x-circle')
+                    ->falseIcon('heroicon-o-check-circle')       
+                    ->label('Tersedia?'),
+                Tables\Columns\ImageColumn::make('thumbnail')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
