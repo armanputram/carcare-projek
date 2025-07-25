@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('duration_in_hour');
             $table->text('about');
-            $table->string('car_store_id')->unique();
+            $table->string('slug')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

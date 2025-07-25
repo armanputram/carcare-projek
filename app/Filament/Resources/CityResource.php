@@ -17,13 +17,16 @@ class CityResource extends Resource
 {
     protected static ?string $model = City::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-gllobe-alt';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->helperText('Gunakan nama yang sesuai bisnis anda.')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -31,7 +34,8 @@ class CityResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
             ])
             ->filters([
                 //
