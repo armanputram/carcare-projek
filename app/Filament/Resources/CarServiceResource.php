@@ -24,7 +24,7 @@ class CarServiceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->helperText('Gunakan nama layanan yang sesuai bisnis Anda.')
+                    ->helperText('Gunakan nama layanan yang sesuai bisnis Anda.')
                     ->required()
                     ->maxLength(255),
 
@@ -39,12 +39,12 @@ class CarServiceResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\FileUpload::make('photo')
-                ->image()
-                ->required(),
+                    ->image()
+                    ->required(),
 
                 Forms\Components\FileUpload::make('icon')
-                ->image()
-                ->required(),
+                    ->image()
+                    ->required(),
 
                 Forms\Components\Textarea::make('about')
                     ->required()
@@ -59,14 +59,14 @@ class CarServiceResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\imageColumn::make('photo')
+                Tables\Columns\ImageColumn::make('photo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money("Rp.")
+                    ->money("IDR")
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('icon')
-                
-         
+
+
             ])
             ->filters([
                 //
