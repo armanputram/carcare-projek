@@ -106,8 +106,8 @@
         const cityId = document.getElementById('city_id').value;
         const serviceTypeId = this.getAttribute('data-service');
 
-        window.location.href = `/search?city_id=${cityId}&service_type_id=${serviceTypeId}`;
-    });
+        window.location.href = `/search?city_id=${cityId}&service_type=${serviceTypeId}`;
+         });
     });
   </script>
 </body>
